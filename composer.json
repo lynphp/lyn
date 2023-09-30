@@ -1,0 +1,19 @@
+{
+  "name": "lynphp/lyn",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Resti Guay",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Lyn\\": "src/"
+    }
+  }
+}
