@@ -13,7 +13,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Lynphp\\Lyn\\": "src/"
+      "Lynphp\\Lyn\\": "src/",
+      
     }
   }
 }
