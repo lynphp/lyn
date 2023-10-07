@@ -2,7 +2,7 @@
 	
 	namespace Lynphp\Lyn;
 	
-	class HTTPResponse
+	class Session
 	{
 		
 	}

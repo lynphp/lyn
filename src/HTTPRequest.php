@@ -9,6 +9,10 @@
 		 * @var string
 		 */
 		public $accept;
+		/**
+		 * @var mixed|string
+		 */
+		public string $sessionCookie;
 		
 		/**
 		 * @var string
@@ -21,27 +25,47 @@
 		 */
 		private $method;
 		
+		private array $roles = [];
+		
 		public function __construct()
 		{
+			$this->roles[]='guest';
 			$this->method = $_SERVER['REQUEST_METHOD'];
 			$this->uri = $_SERVER['REQUEST_URI'];
 			$this->accept = $_SERVER['HTTP_ACCEPT'];
+			$this->sessionCookie = $_COOKIE['sessionCookie']??'';
 		}
 		
 		final public function getMethod():string{
 			return $this->method;
 		}
-		
+		final public function getSessionCookie():string{
+			return $this->sessionCookie;
+		}
+		final public function fromActiveSession():bool{
+			return empty($this->getSessionCookie())===false;
+		}
+		final public function hasRole(string $role):bool{
+			foreach($this->roles as $key=>$value){
+				if($value === $role){
+					return true;
+				}
+			}
+			return false;
+		}
 		final public function getURI():string{
 			return $this->uri;
 		}
-		final public function getAccept(){
+		final public function getAccept():string{
 			return $this->accept;
 		}
 		
-		final public function getHTMLResponse():HTTPResponse
+		/**
+		 * @return HTMLResponse
+		 */
+		final public function getHTMLResponse():HTMLResponse
 		{
-			return new HTTPResponse();
+			return new HTMLResponse($this);
 			
 		}
 		final public function getJSONResponse():JSONResponse
@@ -49,7 +73,7 @@
 			return new JSONResponse();
 			
 		}
-		private function requestMimeType():string {
+		final public function requestMimeType():string {
 			// Parse the accept header
 			$types = explode(",", $this->accept);
 			foreach ($types as $type) {
@@ -64,5 +88,14 @@
 			arsort($mime_types);
 			// Return the first element of the sorted array which has the highest quality factor
 			return key($mime_types);
+		}
+		
+		public function addSlug(mixed $segment):void
+		{
+		}
+		
+		public function getParam(string $key)
+		{
+			return $_GET[$key];
 		}
 	}

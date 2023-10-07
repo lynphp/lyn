@@ -5,4 +5,11 @@
 	class JSONResponse
 	{
 		
+		public function handle()
+		{
+		}
+		
+		public function send()
+		{
+		}
 	}
